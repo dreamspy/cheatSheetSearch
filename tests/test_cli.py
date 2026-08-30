@@ -49,6 +49,10 @@ def test_context_lines_omits_blank_neighbors():
     assert below is None
 
 
+def test_context_lines_handles_line_number_past_end_of_lines():
+    assert _context_lines([], 5) == (None, None)
+
+
 def test_highlight_matches_wraps_literal_word():
     result = _highlight_matches("detach from tmux", ["tmux"])
     assert "\033[1;33mtmux\033[0m" in result
