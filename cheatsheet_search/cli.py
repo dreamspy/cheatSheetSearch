@@ -59,7 +59,7 @@ def _highlight_matches(text: str, words: list[str]) -> str:
     `text`. Matching is a case-insensitive word-prefix match, since a
     corrected word may be a porter stem of the word actually on the line
     rather than the exact word (see `_correct_words` in search.py)."""
-    terms = sorted({w for w in words if w}, key=len, reverse=True)
+    terms = {w for w in words if w}
     if not terms:
         return text
     pattern = re.compile(
@@ -82,7 +82,7 @@ def _context_lines(lines: list[str], line_number: int) -> tuple[str | None, str 
     `lines`, stripped. Missing (file boundary) or blank lines are omitted
     (returned as None) rather than printed as empty context."""
     idx = line_number - 1
-    above = lines[idx - 1].strip() if idx - 1 >= 0 else ""
+    above = lines[idx - 1].strip() if 0 <= idx - 1 < len(lines) else ""
     below = lines[idx + 1].strip() if idx + 1 < len(lines) else ""
     return (above or None, below or None)
 
