@@ -1,0 +1,16 @@
+[project]
+name = "cheatsheet-search"
+version = "0.1.0"
+description = "Fast local search over personal cheat sheets and how-tos."
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+cheatsheet = "cheatsheet_search.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["cheatsheet_search"]
