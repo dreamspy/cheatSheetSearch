@@ -5,12 +5,50 @@ how-to notes, from the command line.
 
 ## Install
 
+### System-wide (recommended)
+
+Install with [pipx](https://pipx.pypa.io/) so the `cheatsheet` command is on
+your `PATH` everywhere, in its own isolated environment (no dependency on
+where any particular clone or checkout happens to live):
+
 ```sh
-pip install -e .
+pipx install git+https://github.com/dreamspy/cheatSheetSearch.git
 ```
 
-This installs a `cheatsheet` command (see `[project.scripts]` in
-`pyproject.toml`).
+(No pipx yet? `brew install pipx`.) This is stdlib-only - no other Python
+dependencies get pulled in. To upgrade after new commits land:
+
+```sh
+pipx upgrade cheatsheet-search
+```
+
+To uninstall:
+
+```sh
+pipx uninstall cheatsheet-search
+```
+
+If you keep a permanent local clone (e.g. because you're developing on it)
+and want the installed command to pick up edits immediately without
+reinstalling, install from that clone in editable mode instead:
+
+```sh
+git clone git@github.com:dreamspy/cheatSheetSearch.git ~/Programming/cheatSheetSearch
+pipx install --editable ~/Programming/cheatSheetSearch
+```
+
+### Local / development install
+
+From a checkout of this repo, in a virtualenv:
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -e .
+.venv/bin/cheatsheet "..."
+```
+
+Either install method exposes a `cheatsheet` command (see `[project.scripts]`
+in `pyproject.toml`).
 
 ## Configure
 
