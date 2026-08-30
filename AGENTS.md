@@ -24,6 +24,12 @@ correction work.
 - On macOS, opening a search result opens the whole file via `open` (OS default handler), not a
   specific line - the default `.md` handler here is Obsidian, which has no line-jump via plain
   `open`. Result output shows the line number instead.
+- CLI output (`cli.py:_print_results`) colors, OSC 8 hyperlinks, and dimmed context lines - all
+  gated by `_supports_color` (tty + `NO_COLOR` check) so piped/scripted output stays plain. Matched-
+  word highlighting (`_highlight_matches`) uses a case-insensitive *word-prefix* regex against
+  `SearchResult.matched_words`, not exact string match: a typo-corrected query word may be a porter
+  stem (e.g. "detach"), which won't literally appear in text like "detaches" - prefix matching is
+  the cheap way to still highlight the inflected form actually on the line.
 
 ## Maintaining this file
 
