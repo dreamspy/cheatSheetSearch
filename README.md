@@ -84,17 +84,31 @@ cheatsheet "what is the shortcut for detaching from tmux"
 
 This prints a ranked list (top 5 by default, `-n`/`--limit` to change it)
 of matching lines, each showing the source file, its section heading (if
-any), and the line number:
+any), the line number, and a line of context immediately above/below the
+match where one exists:
 
 ```
 [1] tmux.md — Detaching (line 12)
+    ## Detaching
     `Ctrl+b d` — detach from current session
+
+[2] tmux.md — Sessions (line 18)
+    `Ctrl+b s` — list sessions to switch between
 ```
+
+In a real terminal the file label (`tmux.md` above) is a clickable OSC 8
+hyperlink to the source file, context lines are dimmed, and the matched
+query word(s) are highlighted within the result line. Colors/hyperlinks
+auto-disable when stdout isn't a terminal (piped/redirected output, or
+`--no-open`'s scripting use case) or when `NO_COLOR` is set, so scripted
+use always gets clean plain text.
 
 Search tolerates typos: any query word that matches nothing in the notes
 gets corrected to its closest known word (stdlib `difflib`, compared on
 stemmed forms) before the search runs, so a single misspelled word doesn't
-sink an otherwise-correct multi-word query.
+sink an otherwise-correct multi-word query. A corrected word is highlighted
+via the actual (inflected) form it matches in the text, not the misspelled
+query word.
 
 ## Open a result
 

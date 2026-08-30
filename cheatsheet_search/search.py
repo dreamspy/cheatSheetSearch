@@ -10,7 +10,7 @@ from __future__ import annotations
 import difflib
 import re
 import sqlite3
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from cheatsheet_search.config import Config, load_config
@@ -51,6 +51,10 @@ class SearchResult:
     heading: str
     line_text: str
     score: float
+    # The (possibly typo-corrected) query words that produced this match -
+    # kept per-result so a display layer can highlight them in line_text
+    # without re-deriving or re-running correction itself.
+    matched_words: list[str] = field(default_factory=list)
 
 
 def _iter_markdown_files(sources: list[Path]):
@@ -115,7 +119,7 @@ def _run_fts(con: sqlite3.Connection, words: list[str], limit: int) -> list[Sear
         (match_expr, limit),
     )
     return [
-        SearchResult(Path(fp), ln, heading, content, score)
+        SearchResult(Path(fp), ln, heading, content, score, list(words))
         for fp, ln, heading, content, score in cur.fetchall()
     ]
 
